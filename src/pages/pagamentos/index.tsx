@@ -3,24 +3,23 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Loading } from '@/components/Loading'
-import {
-  CurrencyCircleDollar,
-  HouseSimple,
-  ListBullets,
-  SignOut
-} from '@phosphor-icons/react'
+import { Layout } from '@/components/layout/Layout'
+import { Table } from '@/components/ui/Table'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
+import { Pagamento } from '@/types/General'
+import { CaretDown, CaretUp, Download, Funnel } from '@phosphor-icons/react'
 
 export default function Pagamentos() {
   const [loading, setLoading] = useState<boolean>(true)
-  const router = useRouter()
   const [carregarMaisPagamentos, setCarregarMaisPagamentos] =
     useState<boolean>(false)
+  const router = useRouter()
 
-  const pagamentos = [
+  const pagamentos: Pagamento[] = [
     {
       dataVencimento: '22/06/2025',
-      dataPagamento: '10/06/2025',
+      dataPagamento: '10/07/2025',
       valor: 'R$ 495,12',
       pago: 'Sim'
     },
@@ -109,7 +108,8 @@ export default function Pagamentos() {
       pago: 'Sim'
     }
   ]
-  const pagamentos2 = [
+
+  const pagamentos2: Pagamento[] = [
     {
       dataVencimento: '22/04/2024',
       dataPagamento: '14/04/2024',
@@ -208,162 +208,139 @@ export default function Pagamentos() {
     }
   ]
 
+  const columns = [
+    {
+      key: 'dataVencimento',
+      label: 'Data de Vencimento',
+      align: 'left' as const
+    },
+    {
+      key: 'dataPagamento',
+      label: 'Data de Pagamento',
+      align: 'left' as const
+    },
+    { key: 'valor', label: 'Valor', align: 'right' as const },
+    { key: 'pago', label: 'Status', align: 'center' as const }
+  ]
+
+  const handleNavigate = (path: string) => {
+    setLoading(true)
+    setTimeout(() => {
+      router.push(path, '/', { shallow: true })
+    }, 500)
+  }
+
+  const handleLoadMore = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setCarregarMaisPagamentos(!carregarMaisPagamentos)
+      setLoading(false)
+    }, 300)
+  }
+
+  const handleExport = () => {
+    // Implementar exportação de dados
+    console.log('Exportando dados...')
+  }
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
-    }, 234)
+    }, 300)
   }, [])
 
+  const allPagamentos = carregarMaisPagamentos
+    ? [...pagamentos, ...pagamentos2]
+    : pagamentos
+
   return (
-    <Loading loading={loading}>
-      <div className="bg-gray-100 flex justify-start items-start gap-2">
-        <div
-          id="sidebar"
-          className="flex lg:flex! flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-[100dvh] overflow-y-scroll lg:overflow-y-auto no-scrollbar w-[200px] bg-white p-4 transition-all duration-200 ease-in-out -translate-x-64 shadow-xs"
-        >
-          <div className="flex justify-center items-center">
-            <img src="logo.webp" className="w-[60px] h-[60px]" />
-          </div>
-
-          <div className="bg-gray-300 h-[1px] w-full" />
-
-          <div className="pr-2 pl-2">
-            <div
-              className="w-[160px] text-sm font-medium mt-1 mb-1 active:scale-95 duration-150 text-start cursor-pointer hover:bg-green-100 rounded-md p-2 flex justify-start items-center gap-2"
-              onClick={() => {
-                setLoading(true)
-
-                setTimeout(() => {
-                  router.push('homePage', '/', { shallow: true })
-                }, 1244)
-              }}
-            >
-              <HouseSimple size={20} />
-              Dashboard
-            </div>
-
-            <div
-              className="w-[160px] text-sm font-medium mt-1 mb-1 active:scale-95 duration-150 text-start cursor-pointer hover:bg-gray-100 rounded-md p-2 flex justify-start items-center gap-2"
-              onClick={() => {
-                setLoading(true)
-
-                setTimeout(() => {
-                  router.push('cotas', '/', { shallow: true })
-                }, 1244)
-              }}
-            >
-              <ListBullets size={20} />
-              Cotas
-            </div>
-
-            <div className="w-[160px] text-sm font-medium mt-1 mb-1 active:scale-95 duration-150 text-start cursor-pointer hover:bg-gray-100 rounded-md p-2 flex justify-start items-center gap-2 bg-green-50">
-              <CurrencyCircleDollar size={20} />
-              Pagamentos
-            </div>
-
-            <div className="text-sm font-medium mt-1 mb-1 active:scale-95 duration-150 text-start cursor-pointer hover:bg-gray-100 rounded-md p-2 flex justify-start items-center gap-2 absolute bottom-5 w-[160px]">
-              <SignOut size={20} />
-              Sair
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-4 w-[80%] mt-2 rounded-md">
-          <h2 className="mb-5 text-start text-xl font-bold text-[#045B77] uppercase">
-            <span>PAGAMENTOS</span>
-            <div className="border-b-2 border-[#14B2C1] w-[30px] pt-1"></div>
-          </h2>
-
-          <div className="h-[1px] w-full bg-[#14B2C1] mb-2" />
-
-          <div className="flex justify-between items-center">
-            <p className="text-sm font-semibold">Data de Vencimento</p>
-            <p className="text-sm font-semibold">Data de Pagamento</p>
-            <p className="text-sm font-semibold">Valor</p>
-            <p className="text-sm font-semibold">Pago</p>
-          </div>
-
-          <div className="h-[1px] w-full bg-[#14B2C1] mt-2" />
-
-          {pagamentos.map((pagamento, index) => {
-            return (
-              <div
-                key={index}
-                className="flex justify-between items-center mt-5 mb-5"
-              >
-                <p className="text-sm font-light text-start">
-                  {pagamento.dataVencimento}
-                </p>
-                <p className="text-sm font-light text-start">
-                  {pagamento.dataPagamento}
-                </p>
-                <p className="text-sm font-light text-start">
-                  {pagamento.valor}
-                </p>
-                <p className="text-sm font-light text-start">
-                  {pagamento.pago}
-                </p>
-              </div>
-            )
-          })}
-
-          {carregarMaisPagamentos && (
-            <span>
-              {pagamentos2.map((pagamento, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center mt-5 mb-5"
-                  >
-                    <p className="text-sm font-light text-start">
-                      {pagamento.dataVencimento}
-                    </p>
-                    <p className="text-sm font-light text-start">
-                      {pagamento.dataPagamento}
-                    </p>
-                    <p className="text-sm font-light text-start">
-                      {pagamento.valor}
-                    </p>
-                    <p className="text-sm font-light text-start">
-                      {pagamento.pago}
-                    </p>
-                  </div>
-                )
-              })}
-            </span>
-          )}
-
-          <p
-            className="text-sm text-blue-700 hover:underline cursor-pointer w-max"
-            onClick={() => {
-              setLoading(true)
-
-              setTimeout(() => {
-                setCarregarMaisPagamentos(!carregarMaisPagamentos)
-                setLoading(false)
-              }, 423)
-            }}
-          >
-            Carregar {carregarMaisPagamentos ? 'menos' : 'mais'}
-          </p>
-
-          {carregarMaisPagamentos && (
-            <div className="mt-5">
-              <p className="text-sm text-center text-[#14B2C1]">
-                Para visualizar outros pagamentos, entre em contato com sua
-                agência!
-              </p>
-            </div>
-          )}
-
-          <div className="mt-10 border border-[#BFDCE5] rounded-md p-4">
-            <p className="font-bold text-[#14B2C1]">ORIENTAÇÕES</p>
-            <p className="mt-3 font-light text-[#005673]">
-              Entre em contato com sua cooperativa para saber os procedimentos.
+    <Layout
+      currentPath="/pagamentos"
+      onNavigate={handleNavigate}
+      loading={loading}>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Pagamentos</h1>
+            <p className="text-gray-600 mt-1">
+              Histórico completo de todos os pagamentos realizados
             </p>
           </div>
+
+          {/* <div className="flex gap-3">
+            <Button
+              variant="outline"
+              icon={<Funnel size={16} />}
+              onClick={() => console.log('Filtrar')}
+            >
+              Filtrar
+            </Button>
+            <Button
+              variant="primary"
+              icon={<Download size={16} />}
+              onClick={handleExport}
+            >
+              Exportar
+            </Button>
+          </div> */}
         </div>
+
+        {/* Table */}
+        <Card>
+          <Table
+            columns={columns}
+            data={allPagamentos}
+            loading={loading}
+            emptyMessage="Nenhum pagamento encontrado"
+          />
+        </Card>
+
+        {/* Load More Button */}
+        <div className="flex justify-center">
+          <Button
+            variant="outline"
+            onClick={handleLoadMore}
+            icon={
+              carregarMaisPagamentos ? (
+                <CaretUp size={16} />
+              ) : (
+                <CaretDown size={16} />
+              )
+            }>
+            {carregarMaisPagamentos ? 'Mostrar Menos' : 'Carregar Mais'}
+          </Button>
+        </div>
+
+        {/* Guidelines */}
+        <Card className="bg-gray-50 border-gray-200">
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0">
+              <div className="w-8 h-8 bg-[#14B2C1] rounded-full flex items-center justify-center">
+                <svg
+                  className="w-4 h-4 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-gray-900">Orientações</h3>
+              <p className="text-sm text-gray-700 mt-1">
+                Entre em contato com sua cooperativa para saber os procedimentos
+                específicos.
+              </p>
+            </div>
+          </div>
+        </Card>
       </div>
-    </Loading>
+    </Layout>
   )
 }

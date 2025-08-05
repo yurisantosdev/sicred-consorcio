@@ -58,10 +58,9 @@ export default function EsqueciSenha() {
                 setLoading(true)
 
                 setTimeout(() => {
-                  router.push('valoresDevolver', '/', { shallow: true })
+                  router.back()
                 }, 600)
-              }}
-            >
+              }}>
               <p className="text-xl mb-[2px] font-extralight text-center">
                 {'<'}
               </p>

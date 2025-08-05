@@ -69,7 +69,7 @@ export default function EsqueciSenha() {
               type="text"
               placeholder="Grupo"
               className="mb-3 w-full rounded border border-gray-300 px-4 py-2 text-gray-700 focus:border-[#14B2C1] focus:outline-none placeholder:text-sm"
-              onChange={e => {
+              onChange={(e) => {
                 setGrupo(e.target.value)
               }}
               maxLength={6}
@@ -80,7 +80,7 @@ export default function EsqueciSenha() {
               type="text"
               placeholder="Cota"
               className="mb-3 w-full rounded border border-gray-300 px-4 py-2 text-gray-700 focus:border-[#14B2C1] focus:outline-none placeholder:text-sm"
-              onChange={e => {
+              onChange={(e) => {
                 setCota(e.target.value)
               }}
               value={cota}
@@ -92,7 +92,7 @@ export default function EsqueciSenha() {
             type="text"
             placeholder="CPF/CNPJ"
             className="mb-3 w-full rounded border border-gray-300 px-4 py-2 text-gray-700 focus:border-[#14B2C1] focus:outline-none placeholder:text-sm"
-            onChange={e => {
+            onChange={(e) => {
               setCpfCnpj(formatCpfCnpj(e.target.value))
             }}
             value={cpfCnpj}
@@ -103,7 +103,7 @@ export default function EsqueciSenha() {
             type="text"
             placeholder="Nº Contrato"
             className="mb-3 w-full rounded border border-gray-300 px-4 py-2 text-gray-700 focus:border-[#14B2C1] focus:outline-none placeholder:text-sm"
-            onChange={e => {
+            onChange={(e) => {
               setContrato(e.target.value)
             }}
             value={contrato}
@@ -119,10 +119,9 @@ export default function EsqueciSenha() {
                     setLoading(true)
 
                     setTimeout(() => {
-                      router.push('/', '/', { shallow: true })
+                      router.back()
                     }, 543)
-                  }}
-                >
+                  }}>
                   <p className="text-xl mb-[2px] font-extralight text-center">
                     {'<'}
                   </p>
@@ -131,8 +130,7 @@ export default function EsqueciSenha() {
 
                 <button
                   className="w-full mt-3 font-normal text-xs bg-gray-300 text-gray-500 p-1 rounded cursor-not-allowed flex justify-center items-center gap-2"
-                  disabled={true}
-                >
+                  disabled={true}>
                   CONTINUAR
                   <p className="text-xl mb-[2px] font-extralight text-center">
                     {'>'}
@@ -145,8 +143,7 @@ export default function EsqueciSenha() {
                   className="w-full mt-3 font-normal text-xs bg-white border border-gray-300 active:scale-95 duration-100 text-gray-500 p-1 rounded flex justify-center items-center gap-2"
                   onClick={() => {
                     router.push('/', '/', { shallow: true })
-                  }}
-                >
+                  }}>
                   <p className="text-xl mb-[2px] font-extralight text-center">
                     {'<'}
                   </p>
@@ -156,8 +153,7 @@ export default function EsqueciSenha() {
                 <button
                   className="w-full mt-3 font-normal active:scale-95 duration-100 text-xs bg-[#19B3C2] text-white p-1 rounded cursor-pointer flex justify-center items-center gap-1"
                   disabled={false}
-                  onClick={acessar}
-                >
+                  onClick={acessar}>
                   CONTINUAR
                   <p className="text-xl mb-[2px] font-extralight text-center">
                     {'>'}
@@ -172,8 +168,7 @@ export default function EsqueciSenha() {
             open={openModalAviso}
             onClose={() => {
               setOpenModalAviso(!openModalAviso)
-            }}
-          >
+            }}>
             <Modal.Header>
               <Modal.Title>
                 <p className="font-bold text-start text-xl">Atenção</p>
@@ -199,8 +194,7 @@ export default function EsqueciSenha() {
                   disabled={false}
                   onClick={() => {
                     setOpenModalAviso(false)
-                  }}
-                >
+                  }}>
                   OK
                   <p className="text-xl mb-[2px] font-extralight text-center">
                     {'>'}
